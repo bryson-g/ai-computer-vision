@@ -8,8 +8,8 @@ def main(**kwargs):
 
 if __name__ == "__main__":
     main(
-        capture_inputs=False,
-        cycle_captures=False,
+        capture_inputs=True,
+        cycle_captures=True,
         grid=(6,9),
         input_dir="imgs/calib_inputs/",
         save_dir = "data/distortion.json"

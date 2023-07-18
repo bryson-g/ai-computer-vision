@@ -24,7 +24,7 @@ class Calibrator():
         
         if self.searching == True:
             gray = cv.cvtColor(copy, cv.COLOR_BGR2GRAY)
-            ret, _ = cv.findChessboardCorners(gray, self.grid, cv.CALIB_CB_ADAPTIVE_THRESH + cv.CALIB_CB_FAST_CHECK + cv.CALIB_CB_NORMALIZE_IMAGE)
+            ret, _ = cv.findChessboardCorners(gray, self.GRID, cv.CALIB_CB_ADAPTIVE_THRESH + cv.CALIB_CB_FAST_CHECK + cv.CALIB_CB_NORMALIZE_IMAGE)
 
             if ret:
                 num_files = str(len(os.listdir(self.INPUT_DIR)))
