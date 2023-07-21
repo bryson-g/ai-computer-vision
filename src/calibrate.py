@@ -8,7 +8,7 @@ def main(**kwargs):
 
 if __name__ == "__main__":
     main(
-        capture_inputs=True,
+        capture_inputs=False,
         cycle_captures=True,
         grid=(6,9),
         input_dir="imgs/calib_inputs/",

@@ -55,7 +55,7 @@ class Calibrator():
 
                 if self.CYCLE_CAPTURES:
                     img = cv.drawChessboardCorners(img, self.GRID, pixel_corners, True)
-                    cv.imshow("img", img)
+                    cv.imshow(name, img)
                     cv.waitKey(0)
 
         size = cv.imread(self.INPUT_DIR + "0.jpg", cv.IMREAD_GRAYSCALE).shape[::-1]
