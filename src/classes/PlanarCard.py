@@ -17,11 +17,12 @@ class PlanarCard:
         self.TRAIN_IMG = timg
         self.MIN_MATCH = 15
 
+    def scan(self):
         if self.test_scene is None:
             capture(self.per_frame)
         else:
             src = cv.imread(self.test_scene)
-            self.per_frame(src, src.copy(), lambda x: print("nope"))
+            capture(self.per_frame, test_scene=self.test_scene)
 
     def _undistort(self, img):
         with open(self.dist_dir, 'r') as f:
