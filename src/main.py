@@ -1,7 +1,7 @@
-from classes.ParlayScanner import ParlayScanner
+from classes.PlanarCard import PlanarCard
 
 def main(**kwargs):
-    scanner = ParlayScanner(**kwargs)
+    scanner = PlanarCard(**kwargs)
 
 if __name__ == "__main__":
     main(
