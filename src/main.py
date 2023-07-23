@@ -6,6 +6,7 @@ def main(**kwargs):
 
 if __name__ == "__main__":
     main(
+        # test_scene=None,
         test_scene="imgs/scenes/parlay-curve.jpg",
         dist_dir="data/distortion.json"
     )
