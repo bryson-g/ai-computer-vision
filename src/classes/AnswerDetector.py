@@ -2,6 +2,7 @@ import cv2 as cv
 import numpy as np
 from classes.Grid import Grid
 import constants.answers as answer_list
+from math import sqrt
 
 class AnswerDetector():
     def __init__(self, **kwargs):
@@ -48,13 +49,15 @@ class AnswerDetector():
         detector = cv.SimpleBlobDetector_create(params)
         
         keypoints = detector.detect(copy)
-        points = [(int(kpt.pt[0]), int(kpt.pt[1])) for kpt in keypoints]
         
         if display:
+            for kp in keypoints:
+                cv.circle(copy, (int(kp.pt[0]), int(kp.pt[1])), int(kp.size/2), 255, -1)
+
             copy = cv.drawKeypoints(copy, keypoints, None, (0, 255, 0), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
             cv.imshow("drawn", copy)
         
-        return points
+        return keypoints
     
     def _merge_cols(self, cols):
         ret_pts = []
@@ -63,14 +66,43 @@ class AnswerDetector():
             for pt in col:
                 ret_pts.append(pt)
 
+        ret_pts = sorted(ret_pts, key=lambda pt: pt[1])
         return ret_pts
-    
 
-    def _answers(self, left_cols, right_cols, img):
-        self._get_blobs(img)
+    def _side_answers(self, blob_kp, bubbles, comp_answers, debug_img=None):
+        answers = []    
 
-        # left_bubbles = self._merge_cols(left_cols)
-        # right_bubbles = self._merge_cols(right_cols)
+        for i, bubb_pt in enumerate(bubbles):
+            for bkp in blob_kp:
+                copy = None
+                if debug_img is not None:
+                    copy = debug_img.copy()
+
+                distance = sqrt((bubb_pt[0] - bkp.pt[0])**2 + (bubb_pt[1] - bkp.pt[1])**2)
+
+                if debug_img is not None:
+                    print(distance, bkp.size/2)
+
+                if distance < bkp.size/2:
+                    answers.append(comp_answers[i])
+
+                if copy is not None:
+                    cv.circle(copy, (int(bkp.pt[0]), int(bkp.pt[1])), 7, 255, 2)
+                    cv.circle(copy, (bubb_pt[0], bubb_pt[1]), 5, (0,255,0), 3)
+                    cv.imshow("answerdetector_side_answers_debug_img", copy)
+                    cv.waitKey(0)
+
+        return answers
+
+    def _answers(self, blob_kp, left_cols, right_cols, img):
+        left_bubbles = self._merge_cols(left_cols)
+        right_bubbles = self._merge_cols(right_cols)
+        
+        right_answers = self._side_answers(blob_kp, right_bubbles, answer_list.right, debug_img=None)
+        left_answers = self._side_answers(blob_kp, left_bubbles, answer_list.left, debug_img=None)
+                
+        return right_answers + left_answers
+
     
     def _expected_amount(self, cols):
         if cols is None:
@@ -82,13 +114,29 @@ class AnswerDetector():
                 count += len(col)
 
         return count == 46
+    
+    def _blob_perfectify(self, img, blobs, debug_display=True):
+        img = img.copy()
+
+        for bkp in blobs:
+            cv.circle(img, (int(bkp.pt[0]), int(bkp.pt[1])), 10, (0,255,255), 2)
+        
+        if debug_display:
+            cv.imshow("answerdetecor_blob_perfectify_img", img)
+            cv.waitKey(0)
+
+        return img
+
 
     def detect(self, img):
+        blob_kp = self._get_blobs(img, display=True)
+        img = self._blob_perfectify(img, blob_kp, debug_display=False)
+
         points = self._get_circlish(img)
         grid = Grid(points)
         side_cols = grid.side_most(2, output_img=img)
 
         if self._expected_amount(side_cols):
             left_cols, right_cols = side_cols
-            answers = self._answers(left_cols, right_cols, img)
+            answers = self._answers(blob_kp, left_cols, right_cols, img)
             print(answers)
