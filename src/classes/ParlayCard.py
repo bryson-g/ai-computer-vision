@@ -4,7 +4,7 @@ import json
 from util.capture import capture
 from classes.AnswerDetector import AnswerDetector
 
-class PlanarCard:
+class ParlayCard:
     def __init__(self, **kwargs):
         self.test_scene = kwargs['test_scene']
         self.dist_dir = kwargs['dist_dir']
