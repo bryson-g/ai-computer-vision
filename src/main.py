@@ -1,12 +1,9 @@
-from classes.ParlayCard import ParlayCard
+from classes.Initializer import Initializer
 
 def main(**kwargs):
-    scanner = ParlayCard(**kwargs)
-    scanner.scan()
+    Initializer(**kwargs)
 
 if __name__ == "__main__":
     main(
-        test_scene=None,
-        # test_scene="imgs/scenes/not-working.jpg",
-        dist_dir="data/distortion.json"
+        test_scene="imgs/scenes/not-working.jpg"
     )

@@ -61,6 +61,9 @@ class Grid():
         for i in range(amount):
             right_cols.append(right_sorted[i])
 
+        # both = left_cols + right_cols
+        # for i1, pt1 in 
+
         # DISPLAY #
         if output_img is not None:
             img = output_img.copy()

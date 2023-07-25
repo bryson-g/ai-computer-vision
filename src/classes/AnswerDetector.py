@@ -3,6 +3,7 @@ import numpy as np
 from classes.Grid import Grid
 import constants.answers as answer_list
 from math import sqrt
+from statistics import mean
 
 class AnswerDetector():
     def __init__(self, **kwargs):
@@ -22,7 +23,7 @@ class AnswerDetector():
             approx = cv.approxPolyDP(contour,0.01*cv.arcLength(contour,True),True)
             x, y, w, h = cv.boundingRect(contour)
             area = cv.contourArea(contour)
-            if ((len(approx) > 8) & (area > 100) ):
+            if ((len(approx) > 8) & (area > 150) ):
                 pixels = max(w, h)
                 if pixels < 30:
                     contour_list.append(contour)
@@ -69,6 +70,26 @@ class AnswerDetector():
         ret_pts = sorted(ret_pts, key=lambda pt: pt[1])
         return ret_pts
 
+    def _average_closest(self, points):
+        distances = []
+
+        for i1, pt1 in enumerate(points):
+            smallest = 9999
+
+            for i2, pt2 in enumerate(points):
+                if i1 == i2: 
+                    continue
+                
+                distance = sqrt((pt1[0] - pt2[0])**2 + (pt1[1] - pt2[1])**2)
+                if distance < smallest:
+                    smallest = distance
+
+            distances.append(smallest)
+
+        return mean(distances)
+
+        
+
     def _side_answers(self, blob_kp, bubbles, comp_answers, debug_img=None):
         answers = []    
 
@@ -97,6 +118,8 @@ class AnswerDetector():
     def _answers(self, blob_kp, left_cols, right_cols, img):
         left_bubbles = self._merge_cols(left_cols)
         right_bubbles = self._merge_cols(right_cols)
+
+        # print(self._average_closest(left_bubbles + right_bubbles))
         
         right_answers = self._side_answers(blob_kp, right_bubbles, answer_list.right, debug_img=None)
         left_answers = self._side_answers(blob_kp, left_bubbles, answer_list.left, debug_img=None)
