@@ -5,7 +5,6 @@ from math import sqrt
 class Grid():
     def __init__(self, points):
         self.srt_pts = sorted(points, key=lambda  pt: pt[1])
-        self.srt_pts = self._filter_pts(self.srt_pts, cycle=False)
         self.grid = []
         self._create()
     
@@ -14,23 +13,6 @@ class Grid():
             found_col = self._find_pt_column(pt)
             if not found_col:
                 self.grid.append([pt])
-
-    def _filter_pts(self, points, cycle=False):
-        filtered = []
-        for pt1 in points:
-            too_close = False
-
-            for pt2 in filtered:
-                distance = sqrt((pt1[0] - pt2[0])**2 + (pt1[1] - pt2[1])**2)
-                if distance < 10:
-                    too_close = True
-                    break
-            
-            if too_close == False:
-                filtered.append(pt1)
-        return filtered
-
-
 
     def _find_pt_column(self, pt):
         currX, currY = pt

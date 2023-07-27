@@ -5,5 +5,5 @@ def main(**kwargs):
 
 if __name__ == "__main__":
     main(
-        test_scene="imgs/scenes/not-working.jpg"
+        test_scene="imgs/scenes/not-working.jpg",
     )

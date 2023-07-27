@@ -3,6 +3,7 @@ import numpy as np
 
 from classes.Projector import Projector
 from classes.BubbleDetector import BubbleDetector
+from classes.Grid import Grid
 
 class Card():
     def __init__(self, **kwargs):
@@ -12,11 +13,12 @@ class Card():
     def per_frame(self, src, copy, key_is):
         projection = self.projector.planarize(copy)
         if projection is None: return
-
+        points = self.bubble_detector.detect(projection)
+        grid = Grid(points)
+        grid.side_most(2, output_img=projection.copy())
+        
         cv.imshow("card_per_frame_projection", projection)
         cv.imshow("card_per_frame_src", src)
-
-        points = self.bubble_detector.detect(projection)
 
         zeros = np.zeros_like(projection)
         for pt in points:
