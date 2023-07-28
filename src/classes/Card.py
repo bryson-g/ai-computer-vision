@@ -4,6 +4,8 @@ import numpy as np
 from classes.Projector import Projector
 from classes.BubbleDetector import BubbleDetector
 from classes.Grid import Grid
+from classes.Answers import Answers
+
 
 class Card():
     def __init__(self, **kwargs):
@@ -13,16 +15,17 @@ class Card():
     def per_frame(self, src, copy, key_is):
         projection = self.projector.planarize(copy)
         if projection is None: return
-        points = self.bubble_detector.detect(projection)
-        grid = Grid(points)
-        grid.side_most(2, output_img=projection.copy())
-        
+        points, blobs = self.bubble_detector.detect(projection)
+        grid = Grid(points, output_img=projection.copy())
+
+        if len(grid.left) + len(grid.right) == 46:
+            answers = Answers(grid.left, grid.right, blobs)
+            print(answers.final)
+
         cv.imshow("card_per_frame_projection", projection)
         cv.imshow("card_per_frame_src", src)
-
         zeros = np.zeros_like(projection)
         for pt in points:
-            cv.circle(zeros, (pt[0], pt[1]), 7, (0,255,0), 2)
+            cv.circle(zeros, (int(pt[0]), int(pt[1])), 7, (0,255,0), 2)
         
         cv.imshow("card_per_frame_zeros", zeros)
-        # cv.imshow("card_per_frame_projection", projection)
