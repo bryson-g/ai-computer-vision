@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 import json
 from util.capture import capture
-from classes.AnswerDetector import AnswerDetector
+from classes.old.AnswerDetector import AnswerDetector
 
 class ParlayCard:
     def __init__(self, **kwargs):
