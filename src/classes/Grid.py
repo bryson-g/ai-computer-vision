@@ -3,16 +3,24 @@ import numpy as np
 from math import sqrt
 
 class Grid():
-    def __init__(self, points):
+    def __init__(self, points, output_img=None):
         self.srt_pts = sorted(points, key=lambda  pt: pt[1])
         self.grid = []
-        self._create()
+        self._create(output_img)
     
-    def _create(self):
+    def _create(self, output_img):
         for pt in self.srt_pts:
             found_col = self._find_pt_column(pt)
             if not found_col:
                 self.grid.append([pt])
+
+        sides = self.side_most(2, output_img=output_img)
+        if sides is not None:
+            self.left, self.right = sides
+            self.left = sorted(self.left, key=lambda pt: pt[1])
+            self.right = sorted(self.right, key=lambda pt: pt[1])
+        else:
+            self.left, self.right = [],[]
 
     def _find_pt_column(self, pt):
         currX, currY = pt
@@ -51,10 +59,13 @@ class Grid():
             img = output_img.copy()
             for grid in left_cols + right_cols:
                 for pt in grid:
-                    cv.circle(img, (pt[0], pt[1]), 7, (0,255,0), 2)
+                    cv.circle(img, (int(pt[0]), int(pt[1])), 7, (0,255,0), 2)
             cv.imshow("grid_side_most_img", img)
         
-        return (left_cols, right_cols)
+        left = [pt for col in left_cols for pt in col]
+        right = [pt for col in right_cols for pt in col]
+
+        return (left, right)
     
     def display(self, img, cycle=False):
         img = img.copy()
