@@ -4,7 +4,10 @@ from math import sqrt
 
 class BubbleDetector():
     def __init__(self):
-        pass
+        params = cv.SimpleBlobDetector_Params()
+        params.filterByArea = True
+        params.minArea = 350
+        self.blob_detector = cv.SimpleBlobDetector_create(params)
 
     def _get_circlish(self, contours):
         def cnt_to_pts(contours):
@@ -27,6 +30,22 @@ class BubbleDetector():
                     filtered.append(cnt)
 
         return cnt_to_pts(filtered)
+    
+    def _get_blobs(self, img):
+        copy = img.copy()
+        copy = cv.cvtColor(copy, cv.COLOR_BGR2GRAY)
+        
+        keypoints = self.blob_detector.detect(copy)
+        
+        if True:
+            for kp in keypoints:
+                cv.circle(copy, (int(kp.pt[0]), int(kp.pt[1])), int(kp.size/2), 255, -1)
+
+            copy = cv.drawKeypoints(copy, keypoints, None, (0, 255, 0), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+            cv.imshow("drawn", copy)
+        
+        points = [kp.pt for kp in keypoints]
+        return points
     
     def _remove_too_close(self, points):
         filtered = []
@@ -68,8 +87,12 @@ class BubbleDetector():
         thresh = cv.adaptiveThreshold(gray, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY_INV, 15, 3)
         contours, _ = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
+        blobs = self._get_blobs(img)
+
         circlish = self._get_circlish(contours)
+        circlish = circlish + blobs
+
         circlish = self._remove_too_close(circlish)
         circlish = self._remove_too_far(circlish)
 
-        return circlish
+        return circlish, blobs
