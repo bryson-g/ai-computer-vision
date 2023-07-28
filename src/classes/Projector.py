@@ -64,4 +64,4 @@ class Projector:
     def planarize(self, img):
         undistorted = self._undistort(img)
         planarized = self._to_planar(undistorted)
-        return planarized
+        return planarized, undistorted
