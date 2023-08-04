@@ -5,12 +5,14 @@ from classes.Projector import Projector
 from classes.BubbleDetector import BubbleDetector
 from classes.Grid import Grid
 from classes.Answers import Answers
+from classes.Barcode import Barcode
 
 
 class Card():
     def __init__(self, **kwargs):
         self.projector = Projector()
         self.bubble_detector = BubbleDetector()
+        self.barcode = Barcode()
 
     def per_frame(self, src, copy, key_is):
         projection, undistorted = self.projector.planarize(copy)
@@ -20,6 +22,7 @@ class Card():
 
         if len(grid.left) + len(grid.right) == 46:
             answers = Answers(grid.left, grid.right, blobs)
+            self.barcode.scan(projection)
             print(answers.final)
 
         cv.imshow("card_per_frame_projection", projection)
