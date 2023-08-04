@@ -6,7 +6,7 @@ class BubbleDetector():
     def __init__(self):
         params = cv.SimpleBlobDetector_Params()
         params.filterByArea = True
-        params.minArea = 350
+        params.minArea = 100
         self.blob_detector = cv.SimpleBlobDetector_create(params)
 
     def _get_circlish(self, contours):
