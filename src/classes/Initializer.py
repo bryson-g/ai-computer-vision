@@ -6,9 +6,14 @@ from classes.Card import Card
 class Initializer():
     def __init__(self, **kwargs):
         self.test_scence = kwargs['test_scene']
+        self.force_live = kwargs['force_live']
         self.card = Card(**kwargs)
-        self._create_window()
-        self._handle_result()
+
+        if self.force_live:
+            capture(self.card.per_frame)
+        else:
+            self._create_window()
+            self._handle_result()
 
     def _create_window(self):
         img = np.zeros((115,500,3))

@@ -1,13 +1,14 @@
 import cv2 as cv
 import numpy as np
 import json
+from util.path import get_path
 
 class Projector:
     def __init__(self, **kwargs):
-        timg = cv.imread("imgs/bubble-card.png")
+        timg = cv.imread(get_path("imgs/bubble-card.png"))
         timg = cv.resize(timg, (465, 860))
 
-        self.DIST_DIR = "data/distortion.json"
+        self.DIST_DIR = get_path("data/distortion.json")
         self.TRAIN_IMG = timg
         self.MIN_MATCH = 15
 
