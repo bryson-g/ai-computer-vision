@@ -6,6 +6,6 @@ def main(**kwargs):
 
 if __name__ == "__main__":
     main(
-        test_scene=get_path("imgs/scenes/not-working.jpg"),
-        force_live=True
+        test_scene=get_path("imgs/scenes/0.9556373001096373.jpg"),
+        force_live=False
     )

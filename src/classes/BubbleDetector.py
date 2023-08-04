@@ -6,7 +6,16 @@ class BubbleDetector():
     def __init__(self):
         params = cv.SimpleBlobDetector_Params()
         params.filterByArea = True
-        params.minArea = 100
+        params.minArea = 250
+
+        params.filterByConvexity = True
+        params.minConvexity = .8
+        params.maxConvexity = 1
+
+        # params.filterByCircularity = True
+        # params.minCircularity = .1
+        # params.maxCircularity = 1
+        
         self.blob_detector = cv.SimpleBlobDetector_create(params)
 
     def _get_circlish(self, contours):
@@ -41,8 +50,8 @@ class BubbleDetector():
             for kp in keypoints:
                 cv.circle(copy, (int(kp.pt[0]), int(kp.pt[1])), int(kp.size/2), 255, -1)
 
-            copy = cv.drawKeypoints(copy, keypoints, None, (0, 255, 0), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-            cv.imshow("drawn", copy)
+            draw_blobs = cv.drawKeypoints(copy, keypoints, None, (0, 255, 0), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+            cv.imshow("bubbledetector_get_blobs_draw_blobs", draw_blobs)
         
         points = [kp.pt for kp in keypoints]
         return points
