@@ -1,39 +1,26 @@
 import cv2 as cv
 import numpy as np
 import json
-from util.capture import capture
-from classes.AnswerDetector import AnswerDetector
+from util.path import get_path
 
-class ParlayCard:
+class Projector:
     def __init__(self, **kwargs):
-        self.test_scene = kwargs['test_scene']
-        self.dist_dir = kwargs['dist_dir']
-        self.answer_detector = AnswerDetector(
-
-        )
-
-        timg = cv.imread("imgs/bubble-card.png")
+        timg = cv.imread(get_path("imgs/bubble-card.png"))
         timg = cv.resize(timg, (465, 860))
+
+        self.DIST_DIR = get_path("data/distortion.json")
         self.TRAIN_IMG = timg
         self.MIN_MATCH = 15
 
-    def scan(self):
-        if self.test_scene is None:
-            capture(self.per_frame)
-        else:
-            src = cv.imread(self.test_scene)
-            capture(self.per_frame, test_scene=self.test_scene)
-
     def _undistort(self, img):
-        with open(self.dist_dir, 'r') as f:
+        with open(self.DIST_DIR, 'r') as f:
             dist_data = json.load(f)
         mtx = np.array(dist_data["camera_matrix"])
         dist = np.array(dist_data["distortion_coefficients"])
 
         h,w = img.shape[:2]
-        newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 0, (w,h))
+        newcameramtx, _ = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 0, (w,h))
         dst = cv.undistort(img, mtx, dist, None, newcameramtx)
-        # dst = cv.resize(dst, (492,376))
 
         return dst
 
@@ -74,16 +61,8 @@ class ParlayCard:
             M2 = cv.getPerspectiveTransform(np.float32(dst), pts)
             warped = cv.warpPerspective(from_img, M2, (width, height))
             return warped
-            
-    def per_frame(self, src, copy, key_is):
-        cv.imshow("src", src)
-        dst = self._undistort(src)
-        cv.imshow("dst", dst)
-
-        planar_img = self._to_planar(dst)
-        if planar_img is None: return  
-        cv.imshow("planar", planar_img)
-        answers = self.answer_detector.detect(planar_img)
-
-        if self.test_scene is not None:
-            cv.waitKey(0)
+        
+    def planarize(self, img):
+        undistorted = self._undistort(img)
+        planarized = self._to_planar(undistorted)
+        return planarized, undistorted

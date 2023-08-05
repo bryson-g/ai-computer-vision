@@ -3,34 +3,24 @@ import numpy as np
 from math import sqrt
 
 class Grid():
-    def __init__(self, points):
+    def __init__(self, points, output_img=None):
         self.srt_pts = sorted(points, key=lambda  pt: pt[1])
-        self.srt_pts = self._filter_pts(self.srt_pts, cycle=False)
         self.grid = []
-        self._create()
+        self._create(output_img)
     
-    def _create(self):
+    def _create(self, output_img):
         for pt in self.srt_pts:
             found_col = self._find_pt_column(pt)
             if not found_col:
                 self.grid.append([pt])
 
-    def _filter_pts(self, points, cycle=False):
-        filtered = []
-        for pt1 in points:
-            too_close = False
-
-            for pt2 in filtered:
-                distance = sqrt((pt1[0] - pt2[0])**2 + (pt1[1] - pt2[1])**2)
-                if distance < 10:
-                    too_close = True
-                    break
-            
-            if too_close == False:
-                filtered.append(pt1)
-        return filtered
-
-
+        sides = self.side_most(2, output_img=output_img)
+        if sides is not None:
+            self.left, self.right = sides
+            self.left = sorted(self.left, key=lambda pt: pt[1])
+            self.right = sorted(self.right, key=lambda pt: pt[1])
+        else:
+            self.left, self.right = [],[]
 
     def _find_pt_column(self, pt):
         currX, currY = pt
@@ -61,15 +51,21 @@ class Grid():
         for i in range(amount):
             right_cols.append(right_sorted[i])
 
+        # both = left_cols + right_cols
+        # for i1, pt1 in 
+
         # DISPLAY #
         if output_img is not None:
             img = output_img.copy()
             for grid in left_cols + right_cols:
                 for pt in grid:
-                    cv.circle(img, (pt[0], pt[1]), 7, (0,255,0), 2)
+                    cv.circle(img, (int(pt[0]), int(pt[1])), 7, (0,255,0), 2)
             cv.imshow("grid_side_most_img", img)
         
-        return (left_cols, right_cols)
+        left = [pt for col in left_cols for pt in col]
+        right = [pt for col in right_cols for pt in col]
+
+        return (left, right)
     
     def display(self, img, cycle=False):
         img = img.copy()

@@ -1,6 +1,14 @@
 import cv2 as cv
 
+save = False
+
+def save_frame(path):
+    global save
+    save = path
+
 def capture(per_frame, cap_size=None, test_scene=None):
+    global save
+
     if test_scene is not None:
         img = cv.imread(test_scene)
         if cap_size is not None:
@@ -23,6 +31,11 @@ def capture(per_frame, cap_size=None, test_scene=None):
 
         while True:
             _, frame = cap.read()
+
+            if save != False:
+                cv.imwrite(save, frame)
+                save = False
+
             key = cv.waitKey(1)
 
             def key_is(compare):

@@ -1,12 +1,14 @@
-from classes.ParlayCard import ParlayCard
+from classes.Initializer import Initializer
+from util.path import get_path
+from util.server import open_server
+from threading import Thread
 
 def main(**kwargs):
-    scanner = ParlayCard(**kwargs)
-    scanner.scan()
+    Thread(target=open_server).start()
+    Initializer(**kwargs)
 
 if __name__ == "__main__":
     main(
-        test_scene=None,
-        # test_scene="imgs/scenes/not-working.jpg",
-        dist_dir="data/distortion.json"
+        test_scene=get_path("imgs/scenes/barcode.jpg"),
+        force_live=False
     )
