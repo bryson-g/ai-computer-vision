@@ -9,6 +9,6 @@ def main(**kwargs):
 
 if __name__ == "__main__":
     main(
-        test_scene=get_path("imgs/scenes/barcode.jpg"),
+        test_scene=get_path("imgs/scenes/corner-bubs.jpg"),
         force_live=False
     )
