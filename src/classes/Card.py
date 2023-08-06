@@ -21,7 +21,7 @@ class Card():
             print("Sending request to: ", url)
             requests.post(url)
         except Exception as e:
-            print(e)
+            print("HTTP request failed.")
 
     def per_frame(self, src, copy, key_is):
         projection, undistorted = self.projector.planarize(copy)
