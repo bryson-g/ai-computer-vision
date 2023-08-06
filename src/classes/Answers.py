@@ -30,6 +30,6 @@ class Answers():
             for blob in blobs:
                 distance = sqrt((pt[0] - blob[0])**2 + (pt[1] - blob[1])**2)
                 if distance < 7:
-                    i_answers.append(i)
+                    i_answers.append(str(i))
 
         return i_answers      

@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+import requests
 
 from classes.Projector import Projector
 from classes.BubbleDetector import BubbleDetector
@@ -13,6 +14,15 @@ class Card():
         self.projector = Projector()
         self.bubble_detector = BubbleDetector()
 
+    def _send_answers(self, id, indexes):
+        url = f"http://localhost:8096/?Command=ParlayCardScan&ID={id}&Selections={'.'.join(indexes)}"
+
+        try:
+            print("Sending request to: ", url)
+            requests.post(url)
+        except Exception as e:
+            print(e)
+
     def per_frame(self, src, copy, key_is):
         projection, undistorted = self.projector.planarize(copy)
         cv.imshow("card_per_frame_undistorted", undistorted)
@@ -25,8 +35,9 @@ class Card():
         if len(grid.left) + len(grid.right) == 46:
             answers = Answers(grid.left, grid.right, blobs)
             data = Barcode.scan(projection)
-            print(data)
-            print(answers.final)
+            print(data, answers.final)
+
+            self._send_answers(data, answers.final)
 
         cv.imshow("card_per_frame_projection", projection)
         zeros = np.zeros_like(projection)
