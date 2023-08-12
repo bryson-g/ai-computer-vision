@@ -4,11 +4,13 @@ from util.server import open_server
 from threading import Thread
 
 def main(**kwargs):
-    Thread(target=open_server).start()
+    if kwargs['comms'] == True:
+        Thread(target=open_server).start()
     Initializer(**kwargs)
 
 if __name__ == "__main__":
     main(
         test_scene=get_path("imgs/scenes/corner-bubs.jpg"),
-        force_live=False
+        force_live=False,
+        comms=False,
     )

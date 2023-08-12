@@ -13,6 +13,7 @@ class Card():
     def __init__(self, **kwargs):
         self.projector = Projector()
         self.bubble_detector = BubbleDetector()
+        self.comms = kwargs['comms']
 
     def _send_answers(self, id, indexes):
         url = f"http://localhost:8096/?Command=ParlayCardScan&ID={id}&Selections={'.'.join(indexes)}"
@@ -37,7 +38,8 @@ class Card():
             data = Barcode.scan(projection)
             print(data, answers.final)
 
-            self._send_answers(data, answers.final)
+            if self.comms == True:
+                self._send_answers(data, answers.final)
 
         cv.imshow("card_per_frame_projection", projection)
         zeros = np.zeros_like(projection)
