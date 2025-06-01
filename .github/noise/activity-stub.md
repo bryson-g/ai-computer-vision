@@ -3,3 +3,5 @@
 - **2025-04-20** — housekeeping notes for cv experiments
 
 - **2025-05-11** — sync local dataset index hints
+
+- **2025-06-01** — doc stub for edge-detection scratch work
