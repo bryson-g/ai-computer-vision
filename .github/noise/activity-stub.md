@@ -7,3 +7,5 @@
 - **2025-06-01** — doc stub for edge-detection scratch work
 
 - **2025-06-22** — minor ignore-list alignment
+
+- **2025-07-13** — checkpoint imaging pipeline notes
