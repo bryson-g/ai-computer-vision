@@ -9,3 +9,5 @@
 - **2025-06-22** — minor ignore-list alignment
 
 - **2025-07-13** — checkpoint imaging pipeline notes
+
+- **2025-08-03** — refresh noise folder structure
