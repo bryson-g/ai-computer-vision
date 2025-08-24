@@ -11,3 +11,5 @@
 - **2025-07-13** — checkpoint imaging pipeline notes
 
 - **2025-08-03** — refresh noise folder structure
+
+- **2025-08-24** — align stub with folder conventions
