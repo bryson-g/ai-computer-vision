@@ -13,3 +13,5 @@
 - **2025-08-03** — refresh noise folder structure
 
 - **2025-08-24** — align stub with folder conventions
+
+- **2025-09-14** — internal comment cleanup (no behavior change)
