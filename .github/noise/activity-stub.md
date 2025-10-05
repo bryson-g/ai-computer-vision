@@ -15,3 +15,5 @@
 - **2025-08-24** — align stub with folder conventions
 
 - **2025-09-14** — internal comment cleanup (no behavior change)
+
+- **2025-10-05** — periodic metadata pass
