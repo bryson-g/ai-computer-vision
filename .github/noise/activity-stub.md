@@ -17,3 +17,5 @@
 - **2025-09-14** — internal comment cleanup (no behavior change)
 
 - **2025-10-05** — periodic metadata pass
+
+- **2025-10-26** — stub entry for ORM helper exploration
