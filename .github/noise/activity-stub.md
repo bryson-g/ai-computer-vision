@@ -19,3 +19,5 @@
 - **2025-10-05** — periodic metadata pass
 
 - **2025-10-26** — stub entry for ORM helper exploration
+
+- **2025-11-16** — low-signal repo hygiene
