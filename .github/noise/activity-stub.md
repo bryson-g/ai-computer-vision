@@ -21,3 +21,5 @@
 - **2025-10-26** — stub entry for ORM helper exploration
 
 - **2025-11-16** — low-signal repo hygiene
+
+- **2025-12-07** — year-end notes placeholder
