@@ -23,3 +23,5 @@
 - **2025-11-16** — low-signal repo hygiene
 
 - **2025-12-07** — year-end notes placeholder
+
+- **2025-12-28** — quiet sync marker
