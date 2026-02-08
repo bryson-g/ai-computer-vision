@@ -27,3 +27,5 @@
 - **2025-12-28** — quiet sync marker
 
 - **2026-01-18** — january housekeeping burst
+
+- **2026-02-08** — stub update for pattern-detection notes
