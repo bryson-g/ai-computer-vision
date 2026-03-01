@@ -29,3 +29,5 @@
 - **2026-01-18** — january housekeeping burst
 
 - **2026-02-08** — stub update for pattern-detection notes
+
+- **2026-03-01** — march alignment pass
