@@ -31,3 +31,5 @@
 - **2026-02-08** — stub update for pattern-detection notes
 
 - **2026-03-01** — march alignment pass
+
+- **2026-03-22** — pre-spring cleanup marker
