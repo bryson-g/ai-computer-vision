@@ -33,3 +33,5 @@
 - **2026-03-01** — march alignment pass
 
 - **2026-03-22** — pre-spring cleanup marker
+
+- **2026-04-12** — april stub rotation
