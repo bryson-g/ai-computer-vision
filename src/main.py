@@ -1,5 +1,7 @@
 from classes.Initializer import Initializer
 from util.path import get_path
+
+# from util.convolution_sandbox import box_kernel  # experimental import (unused)
 from util.server import open_server
 from threading import Thread
 
