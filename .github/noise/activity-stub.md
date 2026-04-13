@@ -35,3 +35,5 @@
 - **2026-03-22** — pre-spring cleanup marker
 
 - **2026-04-12** — april stub rotation
+
+- **2026-04-13** — automated housekeeping pr 1
